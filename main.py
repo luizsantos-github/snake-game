@@ -1,4 +1,5 @@
-from turtle import Turtle, Screen
+from turtle import Screen
+from snake import Snake
 import time
 
 # Screen Setup
@@ -8,28 +9,20 @@ screen.bgcolor("black")
 screen.title("Luiz Snake Game")
 screen.tracer(0)
 
-# Create Snake Body
-snake = []
-starting_positions = [(0, 0), (-20, 0), (-40, 0)]
-for position in starting_positions:
-    segment = Turtle("square")
-    segment.color("white")
-    segment.penup()
-    segment.goto(position)
-    snake.append(segment)
+# Initialize Snake
+snake = Snake()
+screen.listen()
+screen.onkey(snake.up, "w")
+screen.onkey(snake.down, "s")
+screen.onkey(snake.left, "a")
+screen.onkey(snake.right, "d")
 
-screen.update()
 
-# Always Move Forward
+# Game Start
 game_is_on = True
 while game_is_on:
     screen.update()
-    time.sleep(0.1)
-
-    for seg_num in range(len(snake) - 1, 0, -1):
-        new_x = snake[seg_num - 1].xcor()
-        new_y = snake[seg_num - 1].ycor()
-        snake[seg_num].goto(new_x, new_y)
-    snake[0].forward(20)
+    time.sleep(0.08)
+    snake.move()
 
 screen.exitonclick()
